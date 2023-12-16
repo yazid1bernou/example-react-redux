@@ -1,28 +1,28 @@
-import logo from './logo.svg';
+
+import { BrowserRouter , Routes , Route} from 'react-router-dom';
 import './App.css';
-import { connect , useSelector} from 'react-redux';
+import ListUsers from "./Users/components/ListUsers";
+import AddUser from "./Users/components/AddUser";
+import UpdateUser from "./Users/components/UpdateUser";
 
-function App(props) {
+function App() {
 
-  const num = useSelector( data => data.num)
+  
   return (
     <div className="App">
-         <div>{num}</div>
-         <div>
-           <button onClick={props.increment}>Incrementer</button>
-           <button onClick={props.decrement}>Decrementer</button>
-           <button onClick={props.reset}>Reset</button>
-         </div>
+         <h1> App Users </h1>
+
+         <BrowserRouter>
+            <Routes>
+                    <Route path="/" element={<ListUsers />} />
+                    <Route path="/add-user" element={<AddUser />} />
+                    <Route path="/update-user/:id" element={<UpdateUser />} />
+            </Routes>
+         </BrowserRouter>
     </div>
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-      increment : () => dispatch({type : "Incrementer"}) ,
-      decrement : () => dispatch({type : "Decrementer"}) ,
-      reset : () => dispatch({type : "Reset"})
-  }
-}
-export default connect (null , mapDispatchToProps)(App); 
+
+export default App; 
 
