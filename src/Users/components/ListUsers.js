@@ -28,7 +28,7 @@ function  ListUsers () {
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>
-                                        <button>Edit</button>
+                                        <Link to={`/update-user/${user.id}`}><button>Edit</button> </Link>
                                         <button>Delete</button>
                                     </td>
                                 </tr>
