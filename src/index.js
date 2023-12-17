@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { legacy_createStore } from 'redux';
-import reducer from './Users/reducer';
+import reducer from './crud-search/config/reducer';
 
 const store =  legacy_createStore(reducer)
 const root = ReactDOM.createRoot(document.getElementById('root'));
