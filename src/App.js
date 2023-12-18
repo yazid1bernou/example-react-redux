@@ -53,6 +53,10 @@ function App() {
       setId("")
 
   }
+  
+  const handleDelete = (id) => {
+    dispatch(deleteUserAction(id))
+  }
 
   return (
     <div className="App">
@@ -118,7 +122,7 @@ function App() {
                           <td>{ville.nom}</td>
                           <td>
                             <button onClick={() =>handleRemplirForme(user.id)}>Modifier</button>
-                            <button>Supprimer</button>
+                            <button onClick={() => handleDelete(user.id)}>Supprimer</button>
                           </td>
                         </tr>
                       )
