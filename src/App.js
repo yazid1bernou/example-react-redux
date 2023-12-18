@@ -3,12 +3,13 @@ import { BrowserRouter , Routes , Route} from 'react-router-dom';
 import './App.css';
 import { useSelector  , useDispatch} from 'react-redux';
 import { useState } from 'react';
-import {addUserAction} from "./crud-search/config/actions";
+import {addUserAction , updateUserAction ,  deleteUserAction , FilterUserAction , clearFilterUserAction} from "./crud-search/config/actions";
 function App() {
   
   const villes =  useSelector(data => data.villes)
   const users =  useSelector(data => data.users)
   const countId = users.length ;  
+  const [id ,  setId] =  useState("");
   const [nom , setNom ] = useState("");
   const [prenom , setPrenom] = useState("");
   const [ville , setVille] = useState(1);
@@ -32,6 +33,27 @@ function App() {
      setVille(1)
   }
 
+  const handleRemplirForme = (id) => {
+       const user = users.find((u) => u.id === parseInt(id)) 
+       setId(id);
+       setNom(user.nom);
+       setPrenom(user.prenom);
+       setVille(user.ville);
+  }
+  
+  const handleModifier = () => {
+      dispatch(updateUserAction ({
+        id : id ,
+        nom : nom ,
+        prenom : prenom ,
+        ville : ville 
+      }))
+
+      handleClear()
+      setId("")
+
+  }
+
   return (
     <div className="App">
          <h1> Crud App Search </h1>
@@ -51,7 +73,9 @@ function App() {
                      )}
                   
                   </select>
-                  <button onClick={handleEnregister}>Enregistrer</button>
+                  {id ? <button onClick={handleModifier}>Modifier</button> :
+                        <button onClick={handleEnregister}>Enregistrer</button>
+                  }
                   <button onClick={handleClear}>Clear</button>
             
          </div>
@@ -93,7 +117,7 @@ function App() {
                           <td>{user.prenom}</td>
                           <td>{ville.nom}</td>
                           <td>
-                            <button>Modifier</button>
+                            <button onClick={() =>handleRemplirForme(user.id)}>Modifier</button>
                             <button>Supprimer</button>
                           </td>
                         </tr>
