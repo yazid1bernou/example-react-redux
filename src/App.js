@@ -2,34 +2,48 @@
 import { BrowserRouter , Routes , Route} from 'react-router-dom';
 import './App.css';
 import { useSelector  , useDispatch} from 'react-redux';
-
-
+import { useState } from 'react';
+import {addUserAction} from "./crud-search/config/actions";
 function App() {
   
   const villes =  useSelector(data => data.villes)
   const users =  useSelector(data => data.users)
+  const countId = users.length ;  
+  const [nom , setNom ] = useState("");
+  const [prenom , setPrenom] = useState("");
+  const [ville , setVille] = useState(1);
   
-  
+  const dispatch =  useDispatch();
+  const handleEnregister = () => {
+    dispatch(addUserAction ({
+      id : countId + 1 ,
+      nom : nom ,
+      prenom : prenom ,
+      ville : ville 
+    }) )
+  }
   return (
     <div className="App">
          <h1> Crud App Search </h1>
-
+    
          <div>
-            <label>Nom</label>
-            <input type="text" />
-            <label>Prénom</label>
-            <input type="text" />
-            <label>Ville</label>
-            <select>
-              {villes?.map((ville , i) => 
-               
-                  <option  key={i} value={ville.id}> {ville.nom} </option>
-               
-               )}
-              
-            </select>
-            <button>Enregistrer</button>
-            <button>Clear</button>
+            <form>
+                  <label>Nom</label>
+                  <input type="text" value={nom} onChange={(e) => setNom(e.target.value)}/>
+                  <label>Prénom</label>
+                  <input type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+                  <label>Ville</label>
+                  <select value={ville} onChange={(e) => setVille(e.target.value)} >
+                  {villes?.map((ville , i) => 
+                     
+                        <option  key={i} value={ville.id}> {ville.nom} </option>
+                     
+                     )}
+                  
+                  </select>
+                  <button onClick={handleEnregister}>Enregistrer</button>
+                  <button>Clear</button>
+            </form>
          </div>
          <div>
            
@@ -49,17 +63,21 @@ function App() {
          <div>
              <table>
                 <thead>
+                  <tr>
                     <th>ID</th>
                     <th>NOM</th>
                     <th>PRENOM</th>
                     <th>VILLE</th>
                     <th>ACTION</th>
+
+                  </tr>
+                    
                 </thead>
                 <tbody>
-                   {users.map( (user ,  index) => {
+                 {users.map( (user ,  index) => {
                       const ville =  villes.find((v) => v.id === parseInt(user.ville));
                       return (
-                       <tr>
+                       <tr key={index}>
                           <td>{user.id}</td>
                           <td>{user.nom}</td>
                           <td>{user.prenom}</td>
