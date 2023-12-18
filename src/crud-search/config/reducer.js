@@ -40,7 +40,7 @@ const reducer  = (state = initialState  , action ) => {
                 ...state ,
                filterUsers : [...state.users.filter((u) => u.ville === parseInt(action.payload))]
             }
-        case "clearFilterUserAction" : 
+        case "Clear_Filter_User" : 
             return {
              ...state ,
              filterUsers : null 

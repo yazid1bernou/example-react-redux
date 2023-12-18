@@ -8,11 +8,15 @@ function App() {
   
   const villes =  useSelector(data => data.villes)
   const users =  useSelector(data => data.users)
+  const filterUsers = useSelector(data => data.filterUsers);
+  const userslistmap = filterUsers ? filterUsers : users ;
   const countId = users.length ;  
   const [id ,  setId] =  useState("");
   const [nom , setNom ] = useState("");
   const [prenom , setPrenom] = useState("");
   const [ville , setVille] = useState(1);
+
+  const [villeFilter , setVilleFilter] =  useState(1) ;
   
   const dispatch =  useDispatch();
 
@@ -58,6 +62,14 @@ function App() {
     dispatch(deleteUserAction(id))
   }
 
+  const handleFilter = () => {
+     dispatch(FilterUserAction (villeFilter))
+  }
+
+  const handleFilterClear = () => {
+    dispatch(clearFilterUserAction(villeFilter))
+  }
+
   return (
     <div className="App">
          <h1> Crud App Search </h1>
@@ -86,7 +98,7 @@ function App() {
          <div>
            
             <label>Filter par ville</label>
-            <select>
+            <select value={villeFilter} onChange={(e) => setVilleFilter(e.target.value)}>
               {villes?.map((ville , i) => 
                
                   <option  key={i} value={ville.id}> {ville.nom} </option>
@@ -94,8 +106,8 @@ function App() {
                )}
               
             </select>
-            <button>Filtrer</button>
-            <button>Clear</button>
+            <button  onClick={() => handleFilter()}>Filtrer</button>
+            <button onClick={() => handleFilterClear()}>Clear</button>
          </div>
 
          <div>
@@ -112,7 +124,7 @@ function App() {
                     
                 </thead>
                 <tbody>
-                 {users.map( (user ,  index) => {
+                 {userslistmap.map( (user ,  index) => {
                       const ville =  villes.find((v) => v.id === parseInt(user.ville));
                       return (
                        <tr key={index}>
