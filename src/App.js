@@ -14,6 +14,7 @@ function App() {
   const [ville , setVille] = useState(1);
   
   const dispatch =  useDispatch();
+
   const handleEnregister = () => {
     dispatch(addUserAction ({
       id : countId + 1 ,
@@ -21,13 +22,22 @@ function App() {
       prenom : prenom ,
       ville : ville 
     }) )
+    handleClear()
+  
   }
+
+  const handleClear = () => {
+     setNom("");
+     setPrenom("");
+     setVille(1)
+  }
+
   return (
     <div className="App">
          <h1> Crud App Search </h1>
     
          <div>
-            <form>
+           
                   <label>Nom</label>
                   <input type="text" value={nom} onChange={(e) => setNom(e.target.value)}/>
                   <label>Prénom</label>
@@ -42,8 +52,8 @@ function App() {
                   
                   </select>
                   <button onClick={handleEnregister}>Enregistrer</button>
-                  <button>Clear</button>
-            </form>
+                  <button onClick={handleClear}>Clear</button>
+            
          </div>
          <div>
            
